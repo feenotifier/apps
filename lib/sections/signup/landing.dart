@@ -255,16 +255,20 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                           title: "Hi",
                           backgroundColor: Color(0xFFFD6F96),
                           textColor: Colors.white,
+
                           onTap: () async {
                             http.Response response = await createAlbum(
+
                               firstName,
                               lastName,
                               email,
                               phoneNumber,
                               passWord,
                             );
+
                             // http.Response response = await http.post(apiUrl,
                             print(response.body);
+
                           },
                         ),
                       ),

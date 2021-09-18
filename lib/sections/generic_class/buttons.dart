@@ -36,6 +36,7 @@ class GenericButtons extends StatelessWidget {
                 color: Color(0xFFFD6F96),
               )
             : null,
+
       ),
       child: TextButton(
           onPressed: onTap,
