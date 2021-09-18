@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
 import 'package:apps/sections/signup/landing.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LoginLandingScreen extends StatefulWidget {
   const LoginLandingScreen({Key key}) : super(key: key);
@@ -15,6 +18,25 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<Offset> _arrowSlideAnimation;
+  String email;
+  String password;
+
+  Future<http.Response> createAlbum(
+    String email,
+    String password,
+  ) async {
+    return http.post(
+      Uri.parse(
+          'http://3671-2405-201-5803-9005-45dc-eec7-b1ee-355f.ngrok.io/fn/v1/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "email": email,
+        "password": password,
+      }),
+    );
+  }
 
   @override
   void initState() {
@@ -143,6 +165,9 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                         borderColor: Color(0xFF6F69AC),
                         focusBorderColor: Color(0xFFFD6F96),
                         labelTextColor: Color(0xFF6F69AC),
+                        onChanged: (val) {
+                          email = val;
+                        },
                       ),
                       SizedBox(
                         height: Distance_Unit * 4,
@@ -155,6 +180,9 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                         borderColor: Color(0xFF6F69AC),
                         focusBorderColor: Color(0xFFFD6F96),
                         labelTextColor: Color(0xFF6F69AC),
+                        onChanged: (val) {
+                          password = val;
+                        },
                       ),
                       SizedBox(
                         height: Distance_Unit * 4,
@@ -180,6 +208,13 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                           title: "Login",
                           backgroundColor: Color(0xFFFD6F96),
                           textColor: Colors.white,
+                          onTap: () async {
+                            http.Response response = await createAlbum(
+                              email,
+                              password,
+                            );
+                            print(response.body);
+                          },
                         ),
                       ),
                       Padding(
