@@ -25,7 +25,6 @@ class GenericButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: Distance_Unit * 14,
-
       width: double.infinity,
       decoration: BoxDecoration(
         color: backgroundColor,
