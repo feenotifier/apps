@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class SignupLandingScreen extends StatefulWidget {
   const SignupLandingScreen({Key key}) : super(key: key);
@@ -14,6 +17,22 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<Offset> _arrowSlideAnimation;
+
+  Future<http.Response> createAlbum(String title) {
+    return http.post(
+      Uri.parse('https://bf8d-49-36-181-243.ngrok.io/fn/v1/add-new-user'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "firstName": "Ashish",
+        "lastName": "wadhwa",
+        "email": "garv@gmail.com",
+        "phoneNumber": "456733654",
+        "password": ""
+      }),
+    );
+  }
 
   @override
   void initState() {
@@ -194,9 +213,13 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                           top: Distance_Unit * 10,
                         ),
                         child: GenericButtons(
-                          title: "Button",
+                          title: "Hi",
                           backgroundColor: Color(0xFFFD6F96),
                           textColor: Colors.white,
+                          onTap: () {
+                            print("Hi");
+                            createAlbum("Ashish");
+                          },
                         ),
                       ),
                     ],
