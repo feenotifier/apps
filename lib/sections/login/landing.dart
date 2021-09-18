@@ -1,16 +1,17 @@
 import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
+import 'package:apps/sections/signup/landing.dart';
 import 'package:flutter/material.dart';
 
-class SignupLandingScreen extends StatefulWidget {
-  const SignupLandingScreen({Key key}) : super(key: key);
+class LoginLandingScreen extends StatefulWidget {
+  const LoginLandingScreen({Key key}) : super(key: key);
 
   @override
-  _SignupLandingScreenState createState() => _SignupLandingScreenState();
+  _LoginLandingScreenState createState() => _LoginLandingScreenState();
 }
 
-class _SignupLandingScreenState extends State<SignupLandingScreen>
+class _LoginLandingScreenState extends State<LoginLandingScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<Offset> _arrowSlideAnimation;
@@ -102,7 +103,7 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                     ),
                     child: Container(
                       child: Text(
-                        "Welcome",
+                        "Welcome\nBack",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -135,32 +136,9 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                   child: Column(
                     children: [
                       GenericTextField(
-                        labelText: "Full Name",
-                        prefixIconName: Icons.person,
-                        prefixIconColor: Color(0xFF6F69AC),
-                        borderColor: Color(0xFF6F69AC),
-                        focusBorderColor: Color(0xFFFD6F96),
-                        labelTextColor: Color(0xFF6F69AC),
-                      ),
-                      SizedBox(
-                        height: Distance_Unit * 4,
-                      ),
-                      GenericTextField(
                         labelText: "Email",
                         keyboardType: TextInputType.emailAddress,
                         prefixIconName: Icons.mail,
-                        prefixIconColor: Color(0xFF6F69AC),
-                        borderColor: Color(0xFF6F69AC),
-                        focusBorderColor: Color(0xFFFD6F96),
-                        labelTextColor: Color(0xFF6F69AC),
-                      ),
-                      SizedBox(
-                        height: Distance_Unit * 4,
-                      ),
-                      GenericTextField(
-                        labelText: "Number",
-                        keyboardType: TextInputType.number,
-                        prefixIconName: Icons.phone_android,
                         prefixIconColor: Color(0xFF6F69AC),
                         borderColor: Color(0xFF6F69AC),
                         focusBorderColor: Color(0xFFFD6F96),
@@ -181,22 +159,45 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                       SizedBox(
                         height: Distance_Unit * 4,
                       ),
-                      GenericTextField(
-                        labelText: "Confirm Password",
-                        prefixIconName: Icons.check_circle,
-                        prefixIconColor: Color(0xFF6F69AC),
-                        borderColor: Color(0xFF6F69AC),
-                        focusBorderColor: Color(0xFFFD6F96),
-                        labelTextColor: Color(0xFF6F69AC),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                          onTap: () {},
+                          child: Text(
+                            "Forgot Password?",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: Distance_Unit * 10,
+                          top: Distance_Unit * 40,
                         ),
                         child: GenericButtons(
-                          title: "Button",
+                          title: "Login",
                           backgroundColor: Color(0xFFFD6F96),
                           textColor: Colors.white,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: Distance_Unit * 4,
+                        ),
+                        child: GenericButtons(
+                          title: "Signup",
+                          textColor: Color(0xFFFD6F96),
+                          buttonType: ButtonType.outlined,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => SignupLandingScreen(),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],
