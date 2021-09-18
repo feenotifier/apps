@@ -18,21 +18,33 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
   AnimationController _animationController;
   Animation<Offset> _arrowSlideAnimation;
 
-  Future<http.Response> createAlbum(String title) {
+  Future<http.Response> createAlbum(
+    String firstname,
+    String lastName,
+    String email,
+    String phoneNumber,
+    String password,
+  ) {
     return http.post(
       Uri.parse('https://bf8d-49-36-181-243.ngrok.io/fn/v1/add-new-user'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        "firstName": "Ashish",
-        "lastName": "wadhwa",
-        "email": "garv@gmail.com",
-        "phoneNumber": "456733654",
-        "password": ""
+        "firstName": firstName,
+        "lastName": lastName,
+        "email": email,
+        "phoneNumber": phoneNumber,
+        "password": passWord,
       }),
     );
   }
+
+  String firstName;
+  String lastName;
+  String email;
+  String phoneNumber;
+  String passWord;
 
   @override
   void initState() {
@@ -107,7 +119,7 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                     ),
                   ),
                   SizedBox(
-                    height: Distance_Unit * 12,
+                    height: Distance_Unit * 4,
                   ),
                   SlideTransition(
                     position: Tween<Offset>(
@@ -154,12 +166,29 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                   child: Column(
                     children: [
                       GenericTextField(
-                        labelText: "Full Name",
+                        labelText: "First Name",
                         prefixIconName: Icons.person,
                         prefixIconColor: Color(0xFF6F69AC),
                         borderColor: Color(0xFF6F69AC),
                         focusBorderColor: Color(0xFFFD6F96),
                         labelTextColor: Color(0xFF6F69AC),
+                        onChanged: (val) {
+                          firstName = val;
+                        },
+                      ),
+                      SizedBox(
+                        height: Distance_Unit * 4,
+                      ),
+                      GenericTextField(
+                        labelText: "Last Name",
+                        prefixIconName: Icons.person,
+                        prefixIconColor: Color(0xFF6F69AC),
+                        borderColor: Color(0xFF6F69AC),
+                        focusBorderColor: Color(0xFFFD6F96),
+                        labelTextColor: Color(0xFF6F69AC),
+                        onChanged: (val) {
+                          lastName = val;
+                        },
                       ),
                       SizedBox(
                         height: Distance_Unit * 4,
@@ -172,6 +201,9 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                         borderColor: Color(0xFF6F69AC),
                         focusBorderColor: Color(0xFFFD6F96),
                         labelTextColor: Color(0xFF6F69AC),
+                        onChanged: (val) {
+                          email = val;
+                        },
                       ),
                       SizedBox(
                         height: Distance_Unit * 4,
@@ -184,6 +216,9 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                         borderColor: Color(0xFF6F69AC),
                         focusBorderColor: Color(0xFFFD6F96),
                         labelTextColor: Color(0xFF6F69AC),
+                        onChanged: (val) {
+                          phoneNumber = val;
+                        },
                       ),
                       SizedBox(
                         height: Distance_Unit * 4,
@@ -196,6 +231,9 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                         borderColor: Color(0xFF6F69AC),
                         focusBorderColor: Color(0xFFFD6F96),
                         labelTextColor: Color(0xFF6F69AC),
+                        onChanged: (val) {
+                          passWord = val;
+                        },
                       ),
                       SizedBox(
                         height: Distance_Unit * 4,
@@ -217,8 +255,13 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                           backgroundColor: Color(0xFFFD6F96),
                           textColor: Colors.white,
                           onTap: () {
-                            print("Hi");
-                            createAlbum("Ashish");
+                            createAlbum(
+                              firstName,
+                              lastName,
+                              email,
+                              phoneNumber,
+                              passWord,
+                            );
                           },
                         ),
                       ),
