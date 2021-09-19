@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
+import 'package:apps/sections/homepage/home.dart';
 import 'package:apps/sections/signup/landing.dart';
+import 'package:apps/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,8 +28,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
     String password,
   ) async {
     return http.post(
-      Uri.parse(
-          'http://3671-2405-201-5803-9005-45dc-eec7-b1ee-355f.ngrok.io/fn/v1/login'),
+      Uri.parse('https://1281-49-36-181-243.ngrok.io/fn/v1/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -214,6 +215,24 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                               password,
                             );
                             print(response.body);
+                            Map<String, dynamic> map =
+                                json.decode(response.body);
+                            print(map);
+                            // List<dynamic> data = map['data'];
+
+                            print(map['data']['userId']);
+                            setUserId(map['data']['userId']);
+
+                            // print(
+                            //     jsonDecode(response.body)['data'][0]['userId']);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => HomePage(
+                                    // userId: map['data']['userId'],
+                                    ),
+                              ),
+                            );
                           },
                         ),
                       ),
