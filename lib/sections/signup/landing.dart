@@ -26,8 +26,7 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
     String password,
   ) {
     return http.post(
-      Uri.parse(
-          'http://3671-2405-201-5803-9005-45dc-eec7-b1ee-355f.ngrok.io/fn/v1/signup'),
+      Uri.parse('https://1281-49-36-181-243.ngrok.io/fn/v1/signup'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -252,7 +251,7 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                           top: Distance_Unit * 10,
                         ),
                         child: GenericButtons(
-                          title: "Hi",
+                          title: "Signup",
                           backgroundColor: Color(0xFFFD6F96),
                           textColor: Colors.white,
 
@@ -266,7 +265,6 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                               passWord,
                             );
 
-                            // http.Response response = await http.post(apiUrl,
                             print(response.body);
 
                           },
