@@ -203,7 +203,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: Distance_Unit * 40,
+                          top: Distance_Unit * 20,
                         ),
                         child: GenericButtons(
                           title: "Login",

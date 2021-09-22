@@ -161,7 +161,7 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                     left: Distance_Unit * 4,
                     right: Distance_Unit * 4,
                     bottom: Distance_Unit * 4,
-                    top: Distance_Unit * 15,
+                    top: Distance_Unit * 10,
                   ),
                   child: Column(
                     children: [
@@ -246,29 +246,24 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                         focusBorderColor: Color(0xFFFD6F96),
                         labelTextColor: Color(0xFF6F69AC),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: Distance_Unit * 10,
-                        ),
-                        child: GenericButtons(
-                          title: "Signup",
-                          backgroundColor: Color(0xFFFD6F96),
-                          textColor: Colors.white,
+                      SizedBox(
+                        height: Distance_Unit * 5,
+                      ),
+                      GenericButtons(
+                        title: "Signup",
+                        backgroundColor: Color(0xFFFD6F96),
+                        textColor: Colors.white,
+                        onTap: () async {
+                          http.Response response = await createAlbum(
+                            firstName,
+                            lastName,
+                            email,
+                            phoneNumber,
+                            passWord,
+                          );
 
-                          onTap: () async {
-                            http.Response response = await createAlbum(
-
-                              firstName,
-                              lastName,
-                              email,
-                              phoneNumber,
-                              passWord,
-                            );
-
-                            print(response.body);
-
-                          },
-                        ),
+                          print(response.body);
+                        },
                       ),
                     ],
                   ),
