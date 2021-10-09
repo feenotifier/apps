@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
+import 'package:apps/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -111,9 +112,12 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                             Distance_Unit * 12,
                           ),
                         ),
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Color(0xFF6F69AC),
+                        child: GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: Color(0xFF6F69AC),
+                          ),
                         ),
                       ),
                     ),
@@ -254,6 +258,7 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                         backgroundColor: Color(0xFFFD6F96),
                         textColor: Colors.white,
                         onTap: () async {
+                          setDataToLocalStorage();
                           http.Response response = await createAlbum(
                             firstName,
                             lastName,
@@ -274,5 +279,10 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
         ),
       ),
     );
+  }
+
+  void setDataToLocalStorage() {
+    setEmail(email);
+    setPassword(passWord);
   }
 }
