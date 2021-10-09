@@ -21,5 +21,6 @@ Raise the pull request(PR)
 
 #
 Feel free to raise an issue, we will address you real quick!
-Its a good practice to comment down if you are working on some issue, so that it will not be picked up by someone else. 
+
+Its a good practice to comment down if you are working on some issue, so that no one else picks it up. 
 #
