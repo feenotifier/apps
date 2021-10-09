@@ -1,16 +1,20 @@
-# apps
+# Fee Notifier
 
-A new Flutter project.
+## How to contribute?
 
-## Getting Started
+Fork the repository
 
-This project is a starting point for a Flutter application.
+Clone it in your local syste using :
 
-A few resources to get you started if this is your first Flutter project:
+```git clone git@github.com:feenotifier/apps.git```
+or
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+``` git clone https://github.com/feenotifier/apps.git```
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Open the folder in your favourite editor
+
+Run: ```flutter pub get```
+
+Make the necessary changes
+
+Raise the pull request(PR)
