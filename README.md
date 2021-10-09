@@ -18,3 +18,7 @@ Run: ```flutter pub get```
 Make the necessary changes
 
 Raise the pull request(PR)
+
+#
+Feel free to raise a ticket, we are online 24*7!
+#
