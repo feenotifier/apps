@@ -20,5 +20,5 @@ Make the necessary changes
 Raise the pull request(PR)
 
 #
-Feel free to raise a ticket, we are online 24*7!
+Feel free to raise an issue, we will address you real quick!
 #
