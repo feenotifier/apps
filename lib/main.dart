@@ -1,11 +1,10 @@
-import 'package:apps/sections/shared/otp_verification.dart';
 import 'package:apps/sections/start/splash.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: OtpVerificationScreen(),
+    home: MyApp(),
   ));
 }
 
