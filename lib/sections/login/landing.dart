@@ -4,8 +4,6 @@ import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
 import 'package:apps/sections/homepage/home.dart';
-import 'package:apps/sections/signup/landing.dart';
-import 'package:apps/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -126,7 +124,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                     ),
                     child: Container(
                       child: Text(
-                        "Welcome\nBack",
+                        "Welcome to \nFee Notifier",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -173,82 +171,29 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                       SizedBox(
                         height: Distance_Unit * 4,
                       ),
-                      GenericTextField(
-                        labelText: "Password",
-                        keyboardType: TextInputType.visiblePassword,
-                        prefixIconName: Icons.lock,
-                        prefixIconColor: Color(0xFF6F69AC),
-                        borderColor: Color(0xFF6F69AC),
-                        focusBorderColor: Color(0xFFFD6F96),
-                        labelTextColor: Color(0xFF6F69AC),
-                        onChanged: (val) {
-                          password = val;
-                        },
-                      ),
-                      SizedBox(
-                        height: Distance_Unit * 4,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Text(
-                            "Forgot Password?",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
                       Padding(
                         padding: const EdgeInsets.only(
                           top: Distance_Unit * 20,
                         ),
                         child: GenericButtons(
-                          title: "Login",
+                          title: "Next",
                           backgroundColor: Color(0xFFFD6F96),
                           textColor: Colors.white,
+                          suffixIconColor: Colors.white,
+                          suffixIconData: Icons.arrow_forward_ios,
                           onTap: () async {
                             http.Response response = await createAlbum(
                               email,
                               password,
                             );
-                            print(response.body);
                             Map<String, dynamic> map =
                                 json.decode(response.body);
-                            print(map);
-                            // List<dynamic> data = map['data'];
-
-                            print(map['data']['userId']);
-                            setUserId(map['data']['userId']);
-
-                            // print(
-                            //     jsonDecode(response.body)['data'][0]['userId']);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => HomePage(
                                     // userId: map['data']['userId'],
                                     ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: Distance_Unit * 4,
-                        ),
-                        child: GenericButtons(
-                          title: "Signup",
-                          textColor: Color(0xFFFD6F96),
-                          buttonType: ButtonType.outlined,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => SignupLandingScreen(),
                               ),
                             );
                           },
