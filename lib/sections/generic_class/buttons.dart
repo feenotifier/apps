@@ -12,6 +12,10 @@ class GenericButtons extends StatelessWidget {
   final Color backgroundColor;
   final Function onTap;
   final ButtonType buttonType;
+  final IconData suffixIconData;
+  final Color suffixIconColor;
+  final double suffixIconSize;
+
   const GenericButtons({
     Key key,
     this.title,
@@ -19,6 +23,9 @@ class GenericButtons extends StatelessWidget {
     this.backgroundColor,
     this.onTap,
     this.buttonType = ButtonType.filled,
+    this.suffixIconData,
+    this.suffixIconColor,
+    this.suffixIconSize,
   }) : super(key: key);
 
   @override
@@ -36,17 +43,31 @@ class GenericButtons extends StatelessWidget {
                 color: Color(0xFFFD6F96),
               )
             : null,
-
       ),
       child: TextButton(
-          onPressed: onTap,
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 18,
-              color: textColor,
+        onPressed: onTap,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+                color: textColor,
+              ),
             ),
-          )),
+            SizedBox(
+              width: Distance_Unit * 2,
+            ),
+            if (suffixIconData != null)
+              Icon(
+                suffixIconData,
+                color: suffixIconColor ?? Colors.white,
+                size: suffixIconSize ?? 20,
+              )
+          ],
+        ),
+      ),
     );
   }
 }
