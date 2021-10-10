@@ -51,7 +51,7 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
   void initState() {
     _initAnimationController();
     _animationController.forward();
-    _initArrowSlideAnimation();
+
     super.initState();
   }
 
@@ -59,18 +59,6 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 700),
-    );
-  }
-
-  _initArrowSlideAnimation() {
-    _arrowSlideAnimation = Tween<Offset>(
-      begin: Offset(-2, 0),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeIn,
-      ),
     );
   }
 
@@ -96,32 +84,9 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FadeTransition(
-                    opacity: _animationController,
-                    child: SlideTransition(
-                      position: _arrowSlideAnimation,
-                      child: Container(
-                        padding: EdgeInsets.only(
-                          left: Distance_Unit * 2,
-                        ),
-                        height: Distance_Unit * 10,
-                        width: Distance_Unit * 10,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(
-                            Distance_Unit * 12,
-                          ),
-                        ),
-                        child: GestureDetector(
-                          onTap: () => Navigator.pop(context),
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            color: Color(0xFF6F69AC),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  BackButton(
+                      animationController: _animationController,
+                      arrowSlideAnimation: _arrowSlideAnimation),
                   SizedBox(
                     height: Distance_Unit * 4,
                   ),
@@ -284,5 +249,48 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
   void setDataToLocalStorage() {
     setEmail(email);
     setPassword(passWord);
+  }
+}
+
+class BackButton extends StatelessWidget {
+  const BackButton({
+    Key key,
+    @required AnimationController animationController,
+    @required Animation<Offset> arrowSlideAnimation,
+  })  : _animationController = animationController,
+        _arrowSlideAnimation = arrowSlideAnimation,
+        super(key: key);
+
+  final AnimationController _animationController;
+  final Animation<Offset> _arrowSlideAnimation;
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _animationController,
+      child: SlideTransition(
+        position: _arrowSlideAnimation,
+        child: Container(
+          padding: EdgeInsets.only(
+            left: Distance_Unit * 2,
+          ),
+          height: Distance_Unit * 10,
+          width: Distance_Unit * 10,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(
+              Distance_Unit * 12,
+            ),
+          ),
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xFF6F69AC),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
