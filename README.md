@@ -2,6 +2,13 @@
 
 ## How to contribute?
 
+```
+Prerequisite:
+
+flutter setup
+```
+
+
 Fork the repository
 
 Clone it in your local syste using :
