@@ -25,7 +25,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               vertical: Distance_Unit * 4,
             ),
             child: Container(
-              height: Distance_Unit * 173,
+              height: MediaQuery.of(context).size.height * 0.91,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
