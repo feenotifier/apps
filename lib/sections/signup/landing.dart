@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
-import 'package:apps/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,40 +17,30 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<Offset> _arrowSlideAnimation;
+  String email;
+  String password;
 
   Future<http.Response> createAlbum(
-    String firstname,
-    String lastName,
     String email,
-    String phoneNumber,
     String password,
-  ) {
+  ) async {
     return http.post(
-      Uri.parse('https://1281-49-36-181-243.ngrok.io/fn/v1/signup'),
+      Uri.parse('https://1281-49-36-181-243.ngrok.io/fn/v1/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        "firstName": firstName,
-        "lastName": lastName,
         "email": email,
-        "phoneNumber": phoneNumber,
-        "password": passWord,
+        "password": password,
       }),
     );
   }
-
-  String firstName;
-  String lastName;
-  String email;
-  String phoneNumber;
-  String passWord;
 
   @override
   void initState() {
     _initAnimationController();
     _animationController.forward();
-
+    _initArrowSlideAnimation();
     super.initState();
   }
 
@@ -62,11 +51,25 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
     );
   }
 
+  _initArrowSlideAnimation() {
+    _arrowSlideAnimation = Tween<Offset>(
+      begin: Offset(-2, 0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeIn,
+      ),
+    );
+  }
+
   @override
   void dispose() {
     _animationController.dispose();
     super.dispose();
   }
+
+  String step = "firstStep";
 
   @override
   Widget build(BuildContext context) {
@@ -84,11 +87,31 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BackButton(
-                      animationController: _animationController,
-                      arrowSlideAnimation: _arrowSlideAnimation),
+                  FadeTransition(
+                    opacity: _animationController,
+                    child: SlideTransition(
+                      position: _arrowSlideAnimation,
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          left: Distance_Unit * 2,
+                        ),
+                        height: Distance_Unit * 10,
+                        width: Distance_Unit * 10,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(
+                            Distance_Unit * 12,
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Color(0xFF6F69AC),
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(
-                    height: Distance_Unit * 4,
+                    height: Distance_Unit * 12,
                   ),
                   SlideTransition(
                     position: Tween<Offset>(
@@ -102,11 +125,11 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                     ),
                     child: Container(
                       child: Text(
-                        "Welcome",
+                        "Let's Sign up",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
-                          fontSize: 40,
+                          fontSize: 30,
                         ),
                       ),
                     ),
@@ -130,110 +153,124 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                     left: Distance_Unit * 4,
                     right: Distance_Unit * 4,
                     bottom: Distance_Unit * 4,
-                    top: Distance_Unit * 10,
+                    top: Distance_Unit * 15,
                   ),
                   child: Column(
                     children: [
-                      GenericTextField(
-                        labelText: "First Name",
-                        prefixIconName: Icons.person,
-                        prefixIconColor: Color(0xFF6F69AC),
-                        borderColor: Color(0xFF6F69AC),
-                        focusBorderColor: Color(0xFFFD6F96),
-                        labelTextColor: Color(0xFF6F69AC),
-                        onChanged: (val) {
-                          firstName = val;
-                        },
-                      ),
+                      if (step == "firstStep") ...[
+                        GenericTextField(
+                          labelText: "First Name",
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIconName: Icons.person,
+                          prefixIconColor: Color(0xFF6F69AC),
+                          borderColor: Color(0xFF6F69AC),
+                          focusBorderColor: Color(0xFFFD6F96),
+                          labelTextColor: Color(0xFF6F69AC),
+                          onChanged: (val) {
+                            email = val;
+                          },
+                        ),
+                        SizedBox(
+                          height: Distance_Unit * 4,
+                        ),
+                        GenericTextField(
+                          labelText: "Last Name",
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIconName: Icons.person,
+                          prefixIconColor: Color(0xFF6F69AC),
+                          borderColor: Color(0xFF6F69AC),
+                          focusBorderColor: Color(0xFFFD6F96),
+                          labelTextColor: Color(0xFF6F69AC),
+                          onChanged: (val) {
+                            email = val;
+                          },
+                        ),
+                        SizedBox(
+                          height: Distance_Unit * 4,
+                        ),
+                        GenericTextField(
+                          labelText: "Mobile Number",
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIconName: Icons.phone,
+                          prefixIconColor: Color(0xFF6F69AC),
+                          borderColor: Color(0xFF6F69AC),
+                          focusBorderColor: Color(0xFFFD6F96),
+                          labelTextColor: Color(0xFF6F69AC),
+                          onChanged: (val) {
+                            email = val;
+                          },
+                        ),
+                      ],
+                      if (step == "finalStep") ...[
+                        GenericTextField(
+                          labelText: "Password",
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIconName: Icons.remove_red_eye,
+                          prefixIconColor: Color(0xFF6F69AC),
+                          borderColor: Color(0xFF6F69AC),
+                          focusBorderColor: Color(0xFFFD6F96),
+                          labelTextColor: Color(0xFF6F69AC),
+                          onChanged: (val) {
+                            email = val;
+                          },
+                        ),
+                        SizedBox(
+                          height: Distance_Unit * 4,
+                        ),
+                        GenericTextField(
+                          labelText: "Confirm Password",
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIconName: Icons.password,
+                          prefixIconColor: Color(0xFF6F69AC),
+                          borderColor: Color(0xFF6F69AC),
+                          focusBorderColor: Color(0xFFFD6F96),
+                          labelTextColor: Color(0xFF6F69AC),
+                          onChanged: (val) {
+                            email = val;
+                          },
+                        ),
+                      ],
                       SizedBox(
                         height: Distance_Unit * 4,
                       ),
-                      GenericTextField(
-                        labelText: "Last Name",
-                        prefixIconName: Icons.person,
-                        prefixIconColor: Color(0xFF6F69AC),
-                        borderColor: Color(0xFF6F69AC),
-                        focusBorderColor: Color(0xFFFD6F96),
-                        labelTextColor: Color(0xFF6F69AC),
-                        onChanged: (val) {
-                          lastName = val;
-                        },
-                      ),
-                      SizedBox(
-                        height: Distance_Unit * 4,
-                      ),
-                      GenericTextField(
-                        labelText: "Email",
-                        keyboardType: TextInputType.emailAddress,
-                        prefixIconName: Icons.mail,
-                        prefixIconColor: Color(0xFF6F69AC),
-                        borderColor: Color(0xFF6F69AC),
-                        focusBorderColor: Color(0xFFFD6F96),
-                        labelTextColor: Color(0xFF6F69AC),
-                        onChanged: (val) {
-                          email = val;
-                        },
-                      ),
-                      SizedBox(
-                        height: Distance_Unit * 4,
-                      ),
-                      GenericTextField(
-                        labelText: "Number",
-                        keyboardType: TextInputType.number,
-                        prefixIconName: Icons.phone_android,
-                        prefixIconColor: Color(0xFF6F69AC),
-                        borderColor: Color(0xFF6F69AC),
-                        focusBorderColor: Color(0xFFFD6F96),
-                        labelTextColor: Color(0xFF6F69AC),
-                        onChanged: (val) {
-                          phoneNumber = val;
-                        },
-                      ),
-                      SizedBox(
-                        height: Distance_Unit * 4,
-                      ),
-                      GenericTextField(
-                        labelText: "Password",
-                        keyboardType: TextInputType.visiblePassword,
-                        prefixIconName: Icons.lock,
-                        prefixIconColor: Color(0xFF6F69AC),
-                        borderColor: Color(0xFF6F69AC),
-                        focusBorderColor: Color(0xFFFD6F96),
-                        labelTextColor: Color(0xFF6F69AC),
-                        onChanged: (val) {
-                          passWord = val;
-                        },
-                      ),
-                      SizedBox(
-                        height: Distance_Unit * 4,
-                      ),
-                      GenericTextField(
-                        labelText: "Confirm Password",
-                        prefixIconName: Icons.check_circle,
-                        prefixIconColor: Color(0xFF6F69AC),
-                        borderColor: Color(0xFF6F69AC),
-                        focusBorderColor: Color(0xFFFD6F96),
-                        labelTextColor: Color(0xFF6F69AC),
-                      ),
-                      SizedBox(
-                        height: Distance_Unit * 5,
-                      ),
-                      GenericButtons(
-                        title: "Signup",
-                        backgroundColor: Color(0xFFFD6F96),
-                        textColor: Colors.white,
-                        onTap: () async {
-                          setDataToLocalStorage();
-                          http.Response response = await createAlbum(
-                            firstName,
-                            lastName,
-                            email,
-                            phoneNumber,
-                            passWord,
-                          );
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: Distance_Unit * 20,
+                        ),
+                        child: GenericButtons(
+                          title: step == "firstStep" ? "Next" : "Submit",
+                          backgroundColor: Color(0xFFFD6F96),
+                          textColor: Colors.white,
+                          suffixIconColor: Colors.white,
+                          suffixIconData: step == "firstStep"
+                              ? Icons.arrow_forward_ios
+                              : null,
+                          onTap: () {
+                            // http.Response response = await createAlbum(
+                            //   email,
+                            //   password,
+                            // );
+                            // Map<String, dynamic> map =
+                            //     json.decode(response.body);
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (_) => HomePage(
+                            //         // userId: map['data']['userId'],
+                            //         ),
+                            //   ),
+                            // );
 
-                          print(response.body);
-                        },
+                            if (step == "firstStep") {
+                              setState(() {
+                                step = "finalStep";
+                              });
+                            }
+                            if (step == "finalStep") {
+                              print("Sign up successful");
+                            }
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -241,54 +278,6 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  void setDataToLocalStorage() {
-    setEmail(email);
-    setPassword(passWord);
-  }
-}
-
-class BackButton extends StatelessWidget {
-  const BackButton({
-    Key key,
-    @required AnimationController animationController,
-    @required Animation<Offset> arrowSlideAnimation,
-  })  : _animationController = animationController,
-        _arrowSlideAnimation = arrowSlideAnimation,
-        super(key: key);
-
-  final AnimationController _animationController;
-  final Animation<Offset> _arrowSlideAnimation;
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _animationController,
-      child: SlideTransition(
-        position: _arrowSlideAnimation,
-        child: Container(
-          padding: EdgeInsets.only(
-            left: Distance_Unit * 2,
-          ),
-          height: Distance_Unit * 10,
-          width: Distance_Unit * 10,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(
-              Distance_Unit * 12,
-            ),
-          ),
-          child: GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: Color(0xFF6F69AC),
-            ),
-          ),
         ),
       ),
     );

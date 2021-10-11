@@ -182,12 +182,12 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                           suffixIconColor: Colors.white,
                           suffixIconData: Icons.arrow_forward_ios,
                           onTap: () async {
-                            http.Response response = await createAlbum(
-                              email,
-                              password,
-                            );
-                            Map<String, dynamic> map =
-                                json.decode(response.body);
+                            // http.Response response = await createAlbum(
+                            //   email,
+                            //   password,
+                            // );
+                            // Map<String, dynamic> map =
+                            //     json.decode(response.body);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
