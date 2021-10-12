@@ -17,6 +17,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Padding(
+          padding: EdgeInsets.all(5),
+          child: RoundBackButton(
+            backgroundColor: Color(0xFF6F69AC),
+            arrowIconColor: Colors.white,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -30,10 +41,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RoundBackButton(
-                    backgroundColor: Color(0xFF6F69AC),
-                    arrowIconColor: Colors.white,
-                  ),
                   SizedBox(
                     height: Distance_Unit * 10,
                   ),
