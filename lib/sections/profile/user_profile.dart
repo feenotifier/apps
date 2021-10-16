@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -13,32 +14,37 @@ class LoginPage extends StatelessWidget {
             alignment: Alignment.topCenter,
             heightFactor: 0.7,
             child: Container(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.height * .08),
+              padding: EdgeInsets.all(size.height * .08),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.deepPurple.shade800, Colors.deepPurpleAccent],
+                  colors: [
+                    Colors.deepPurple.shade800,
+                    Colors.deepPurpleAccent,
+                  ],
                 ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    radius: MediaQuery.of(context).size.height * .16,
+                    radius: size.height * .16,
                     child: Icon(
                       Icons.person,
-                      size: MediaQuery.of(context).size.height * .06,
-                    ), //replace with image
+                      size: size.height * .06,
+                    ),
                     backgroundColor: Colors.white,
                   ),
                   SizedBox(
                     height: 10.0,
                   ),
-                  Text('Example name', //Name
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(.90),
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  Text(
+                    'Example name',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(.90),
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -48,11 +54,13 @@ class LoginPage extends StatelessWidget {
             heightFactor: 0.5,
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(50))),
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(50),
+                ),
+              ),
               child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height * .08),
+                padding: EdgeInsets.symmetric(vertical: size.height * .08),
                 child: Column(
                   children: [
                     Card(
@@ -60,8 +68,10 @@ class LoginPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(50),
                       ),
                       elevation: 8.0,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 6.0,
+                      ),
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -72,16 +82,20 @@ class LoginPage extends StatelessWidget {
                           leading: Container(
                             padding: EdgeInsets.only(right: 12.0),
                             decoration: BoxDecoration(
-                                border: Border(
-                                    right: BorderSide(
-                                        width: 1.0, color: Colors.white24))),
+                              border: Border(
+                                right: BorderSide(
+                                  width: 1.0,
+                                  color: Colors.white24,
+                                ),
+                              ),
+                            ),
                             child: Icon(
                               Icons.email,
                               color: Colors.red,
                             ),
                           ),
                           title: Text(
-                            "Example@gmail.com", //Email
+                            "Example@gmail.com",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -101,20 +115,26 @@ class LoginPage extends StatelessWidget {
                             color: Colors.grey[300]),
                         child: ListTile(
                           contentPadding: EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 10.0),
+                            horizontal: 20.0,
+                            vertical: 10.0,
+                          ),
                           leading: Container(
                             padding: EdgeInsets.only(right: 12.0),
                             decoration: BoxDecoration(
-                                border: Border(
-                                    right: BorderSide(
-                                        width: 1.0, color: Colors.white24))),
+                              border: Border(
+                                right: BorderSide(
+                                  width: 1.0,
+                                  color: Colors.white24,
+                                ),
+                              ),
+                            ),
                             child: Icon(
                               Icons.phone,
                               color: Colors.blue,
                             ),
                           ),
                           title: Text(
-                            "+91 0000000000", //Phone number
+                            "+91 0000000000",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -134,16 +154,18 @@ class LoginPage extends StatelessWidget {
                   Text(
                     "Made with ❤️ in India",
                     style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black.withOpacity(.80)),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black.withOpacity(.80),
+                    ),
                   ),
                   Text(
                     "Fee Notifier",
                     style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black.withOpacity(.80)),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black.withOpacity(.80),
+                    ),
                   ),
                 ],
               ),
