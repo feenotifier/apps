@@ -11,12 +11,12 @@ flutter setup
 
 Fork the repository
 
-Clone it in your local syste using :
+Clone it in your local system using :
 
-```git clone git@github.com:feenotifier/apps.git```
+```git clone git@github.com:{YOUR_GITHUB_ID}/apps.git```
 or
 
-``` git clone https://github.com/feenotifier/apps.git```
+``` git clone https://github.com/{YOUR_GITHUB_ID}/apps.git```
 
 Open the folder in your favourite editor
 
