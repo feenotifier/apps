@@ -7,7 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class SignupLandingScreen extends StatefulWidget {
-  const SignupLandingScreen({Key key}) : super(key: key);
+  final String email;
+  const SignupLandingScreen({
+    Key key,
+    this.email,
+  }) : super(key: key);
 
   @override
   _SignupLandingScreenState createState() => _SignupLandingScreenState();

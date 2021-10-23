@@ -1,35 +1,44 @@
+import 'dart:convert';
+
 import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
-import 'package:apps/sections/shared/otp_verification.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class LoginLandingScreen extends StatefulWidget {
-  const LoginLandingScreen({Key key}) : super(key: key);
+class LoginPasswordScreen extends StatefulWidget {
+  final String email;
+
+  const LoginPasswordScreen({
+    Key key,
+    this.email,
+  }) : super(key: key);
 
   @override
-  _LoginLandingScreenState createState() => _LoginLandingScreenState();
+  _LoginPasswordScreenState createState() => _LoginPasswordScreenState();
 }
 
-class _LoginLandingScreenState extends State<LoginLandingScreen>
+class _LoginPasswordScreenState extends State<LoginPasswordScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<Offset> _arrowSlideAnimation;
-  String email;
   String password;
 
-  // send OTP
-
-  Future<http.Response> sendOTP(
+  // login_api call
+  Future<http.Response> isEmailAndPassCorrect(
     String email,
+    String password,
   ) async {
-    return http.get(
+    return http.post(
       Uri.parse(
-          'http://1463-2405-201-5803-9005-ad9f-83b9-5daa-19a2.ngrok.io/account/verification/sendOtp?email=$email'),
+          'http://1463-2405-201-5803-9005-ad9f-83b9-5daa-19a2.ngrok.io/fn/v1/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
+      body: jsonEncode(<String, String>{
+        "email": email,
+        'password': password,
+      }),
     );
   }
 
@@ -120,7 +129,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                     ),
                     child: Container(
                       child: Text(
-                        "Welcome to \nFee Notifier",
+                        "Welcome to \nFee Notifier\nPlease enter your password",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -153,7 +162,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                   child: Column(
                     children: [
                       GenericTextField(
-                        labelText: "Email",
+                        labelText: "Password",
                         keyboardType: TextInputType.emailAddress,
                         prefixIconName: Icons.mail,
                         prefixIconColor: Color(0xFF6F69AC),
@@ -161,7 +170,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                         focusBorderColor: Color(0xFFFD6F96),
                         labelTextColor: Color(0xFF6F69AC),
                         onChanged: (val) {
-                          email = val;
+                          password = val;
                         },
                       ),
                       SizedBox(
@@ -178,19 +187,21 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                           suffixIconColor: Colors.white,
                           suffixIconData: Icons.arrow_forward_ios,
                           onTap: () async {
-                            if (email != null && email.isNotEmpty) {
-                              http.Response response = await sendOTP(email);
+                            if (password != null && password.isNotEmpty) {
+                              http.Response response =
+                                  await isEmailAndPassCorrect(
+                                      widget.email, password);
                               print(response.body);
-                              if (response.body != null &&
-                                  response.body.isNotEmpty)
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => OtpVerificationScreen(
-                                      otp: response.body.toString(),
-                                    ),
-                                  ),
-                                );
+                              // if (response.body != null &&
+                              //     response.body.isNotEmpty)
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //       builder: (_) => OtpVerificationScreen(
+                              //         otp: response.body.toString(),
+                              //       ),
+                              //     ),
+                              //   );
                             }
                           },
                         ),
