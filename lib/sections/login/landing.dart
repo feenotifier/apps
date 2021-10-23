@@ -27,6 +27,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
     return http.get(
       Uri.parse(
           'http://c081-49-36-183-201.ngrok.io/account/verification/sendOtp?email=$email'),
+
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
