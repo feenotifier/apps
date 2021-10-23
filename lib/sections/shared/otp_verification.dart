@@ -1,18 +1,46 @@
+import 'dart:convert';
+
 import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/backbutton.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
+import 'package:apps/sections/login/enter_password.dart';
+import 'package:apps/sections/signup/landing.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
 
 class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({Key key}) : super(key: key);
+  final String otp;
+  final String email;
+  const OtpVerificationScreen({
+    Key key,
+    this.otp,
+    this.email,
+  }) : super(key: key);
 
   @override
   _OtpVerificationScreenState createState() => _OtpVerificationScreenState();
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
+  String enteredOtp;
+
+  //check email is present in db or not
+  Future<http.Response> isUserOnboarded(
+    String email,
+  ) async {
+    return http.post(
+      Uri.parse(
+          'http://1463-2405-201-5803-9005-ad9f-83b9-5daa-19a2.ngrok.io/fn/v1/check-email?email=$email'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "email": "abcd@gmail.com",
+      }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,25 +64,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               vertical: Distance_Unit * 4,
             ),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.91,
+              height: MediaQuery.of(context).size.height * 0.85,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: Distance_Unit * 10,
-                  ),
-                  Center(
-                    child: Container(
-                      child: SvgPicture.asset(
-                        "assets/svg/otp_mobile.svg",
-                        height: 150,
-                        width: 100,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: Distance_Unit * 15,
+                    height: Distance_Unit * 20,
                   ),
                   Column(
                     children: [
@@ -110,6 +126,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         labelText: "OTP",
                         prefixIconName: Icons.mobile_friendly,
                         borderColor: Color(0xFFFD6F96),
+                        onChanged: (val) {
+                          enteredOtp = val;
+                        },
                       ),
                     ],
                   ),
@@ -118,6 +137,37 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     title: "Submit",
                     backgroundColor: Color(0xFF6F69AC),
                     textColor: Colors.white,
+                    onTap: () async {
+                      if (enteredOtp == widget.otp) {
+                        print("Otp verified");
+                        http.Response response =
+                            await isUserOnboarded(widget.email);
+                        if (response != null) {
+                          Map<String, dynamic> map = json.decode(response.body);
+                          print(map.keys);
+                          if (map['data'] == true)
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => LoginPasswordScreen(
+                                  email: widget.email,
+                                ),
+                              ),
+                            );
+                          else
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => SignupLandingScreen(
+                                  email: widget.email,
+                                ),
+                              ),
+                            );
+                        }
+                      } else
+                        print("Otp did not matched");
+                      // 209239
+                    },
                   ),
                 ],
               ),
