@@ -24,6 +24,7 @@ class OtpVerificationScreen extends StatefulWidget {
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   String enteredOtp;
+  String fetchedEmail;
 
   //check email is present in db or not
   Future<http.Response> isUserOnboarded(
@@ -31,14 +32,24 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   ) async {
     return http.post(
       Uri.parse(
-          'http://1463-2405-201-5803-9005-ad9f-83b9-5daa-19a2.ngrok.io/fn/v1/check-email?email=$email'),
+          'http://c081-49-36-183-201.ngrok.io/fn/v1/check-email?email=$email'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        "email": "abcd@gmail.com",
+        "email": email,
       }),
     );
+  }
+
+  @override
+  void initState() {
+    fetchedEmail = fetchEmail();
+    super.initState();
+  }
+
+  String fetchEmail() {
+    return widget.email;
   }
 
   @override
@@ -139,7 +150,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     textColor: Colors.white,
                     onTap: () async {
                       if (enteredOtp == widget.otp) {
-                        print("Otp verified");
                         http.Response response =
                             await isUserOnboarded(widget.email);
                         if (response != null) {

@@ -26,7 +26,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
   ) async {
     return http.get(
       Uri.parse(
-          'http://1463-2405-201-5803-9005-ad9f-83b9-5daa-19a2.ngrok.io/account/verification/sendOtp?email=$email'),
+          'http://c081-49-36-183-201.ngrok.io/account/verification/sendOtp?email=$email'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -188,6 +188,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                                   MaterialPageRoute(
                                     builder: (_) => OtpVerificationScreen(
                                       otp: response.body.toString(),
+                                      email: email,
                                     ),
                                   ),
                                 );
