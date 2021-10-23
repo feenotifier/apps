@@ -13,36 +13,33 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    _getValue();
     super.initState();
   }
 
   String useId;
   bool isUserIdFetched = false;
 
-  _getValue() async {
-    useId = await getUserID();
-
-    setState(() {
-      isUserIdFetched = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          child: Center(
-            child: TextButton(
-              child:
-                  isUserIdFetched ? Text(useId) : CircularProgressIndicator(),
-              onPressed: () {
-                setState(() async {
-                  useId = await getUserID();
-                });
-              },
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                "HomePage",
+                textAlign: TextAlign.center,
+              ),
+              TextButton(
+                onPressed: () {
+                  setEmail(null);
+                  setPassword(null);
+                },
+                child: Text("Logout"),
+              )
+            ],
           ),
         ),
       ),

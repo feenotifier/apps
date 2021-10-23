@@ -19,7 +19,7 @@ Future<String> getEmail() {
 }
 
 Future<void> setPassword(String password) {
-  return _storage.write(key: 'userId', value: password);
+  return _storage.write(key: 'password', value: password);
 }
 
 Future<String> getPassword() {

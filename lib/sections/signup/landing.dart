@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
+import 'package:apps/sections/homepage/home.dart';
+import 'package:apps/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,21 +23,30 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<Offset> _arrowSlideAnimation;
-  String email;
+
+  String firstName;
+  String lastName;
+  String phoneNumber;
   String password;
 
-  Future<http.Response> createAlbum(
+  Future<http.Response> signupUser(
+    String firstName,
+    String lastName,
+    String phoneNumber,
     String email,
     String password,
   ) async {
     return http.post(
-      Uri.parse('https://1281-49-36-181-243.ngrok.io/fn/v1/login'),
+      Uri.parse('http://c081-49-36-183-201.ngrok.io/fn/v1/signup'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
+        "firstName": firstName,
+        "lastName": lastName,
         "email": email,
-        "password": password,
+        "phoneNumber": phoneNumber,
+        "password": password
       }),
     );
   }
@@ -186,7 +197,7 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                                 focusBorderColor: Color(0xFFFD6F96),
                                 labelTextColor: Color(0xFF6F69AC),
                                 onChanged: (val) {
-                                  email = val;
+                                  firstName = val;
                                 },
                               ),
                               SizedBox(
@@ -201,7 +212,7 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                                 focusBorderColor: Color(0xFFFD6F96),
                                 labelTextColor: Color(0xFF6F69AC),
                                 onChanged: (val) {
-                                  email = val;
+                                  lastName = val;
                                 },
                               ),
                               SizedBox(
@@ -216,7 +227,7 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                                 focusBorderColor: Color(0xFFFD6F96),
                                 labelTextColor: Color(0xFF6F69AC),
                                 onChanged: (val) {
-                                  email = val;
+                                  phoneNumber = val;
                                 },
                               ),
                             ],
@@ -230,7 +241,7 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                                 focusBorderColor: Color(0xFFFD6F96),
                                 labelTextColor: Color(0xFF6F69AC),
                                 onChanged: (val) {
-                                  email = val;
+                                  password = val;
                                 },
                               ),
                               SizedBox(
@@ -244,9 +255,6 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                                 borderColor: Color(0xFF6F69AC),
                                 focusBorderColor: Color(0xFFFD6F96),
                                 labelTextColor: Color(0xFF6F69AC),
-                                onChanged: (val) {
-                                  email = val;
-                                },
                               ),
                             ],
                             SizedBox(
@@ -264,29 +272,39 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
                                 suffixIconData: step == "firstStep"
                                     ? Icons.arrow_forward_ios
                                     : null,
-                                onTap: () {
-                                  // http.Response response = await createAlbum(
-                                  //   email,
-                                  //   password,
-                                  // );
-                                  // Map<String, dynamic> map =
-                                  //     json.decode(response.body);
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (_) => HomePage(
-                                  //         // userId: map['data']['userId'],
-                                  //         ),
-                                  //   ),
-                                  // );
-
+                                onTap: () async {
                                   if (step == "firstStep") {
                                     setState(() {
                                       step = "finalStep";
                                     });
                                   }
-                                  if (step == "finalStep") {
-                                    print("Sign up successful");
+                                  if (step == "finalStep" &&
+                                      password != null &&
+                                      password.isNotEmpty) {
+                                    http.Response response = await signupUser(
+                                      firstName,
+                                      lastName,
+                                      phoneNumber,
+                                      widget.email,
+                                      password,
+                                    );
+
+                                    Map<String, dynamic> map =
+                                        json.decode(response.body);
+                                    print(response.body);
+                                    if (map['data']['isCreated'] == true) {
+                                      setEmail(widget.email);
+                                      setPassword(password);
+                                      print(widget.email);
+                                      print(password);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => HomePage(),
+                                        ),
+                                      );
+                                    } else
+                                      print("Not created");
                                   }
                                 },
                               ),
