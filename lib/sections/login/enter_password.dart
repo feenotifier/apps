@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
+import 'package:apps/sections/homepage/home.dart';
 import 'package:apps/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -31,6 +32,7 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen>
     String password,
   ) async {
     return http.post(
+      Uri.parse('http://c081-49-36-183-201.ngrok.io//fn/v1/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

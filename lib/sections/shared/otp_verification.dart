@@ -24,6 +24,7 @@ class OtpVerificationScreen extends StatefulWidget {
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   String enteredOtp;
+  String fetchedEmail;
 
   //check email is present in db or not
   Future<http.Response> isUserOnboarded(
@@ -35,8 +36,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        "email": email,
+      body: jsonEncode(
+        <String, String>{
+          "email": email,
+        },
+      ),
     );
   }
 
@@ -148,7 +152,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     textColor: Colors.white,
                     onTap: () async {
                       if (enteredOtp == widget.otp) {
-
                         http.Response response =
                             await isUserOnboarded(widget.email);
                         if (response != null) {
