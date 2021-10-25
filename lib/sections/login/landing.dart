@@ -18,7 +18,6 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
   Animation<Offset> _arrowSlideAnimation;
   String email;
   String password;
-  bool emailValid;
 
   // send OTP
 
@@ -152,6 +151,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                         borderColor: Color.fromRGBO(255,198,137,40),
                         focusBorderColor: Color.fromRGBO(255,198,137,40),
                         labelTextColor: Color.fromRGBO(209,209,209,10),
+                        textColor: Colors.white,
                         //TODO - change input text color
                         onChanged: (val) {
                           email = val;
