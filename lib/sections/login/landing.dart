@@ -61,6 +61,12 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
     );
   }
 
+  bool isEmailValid(String em) {
+    String p = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regExp = new RegExp(p);
+    return regExp.hasMatch(em);
+  }
+
   @override
   void dispose() {
     _animationController.dispose();
@@ -69,9 +75,10 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFFD6F96),
+      backgroundColor: Color.fromRGBO(18,18,18,60),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,27 +94,10 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                     opacity: _animationController,
                     child: SlideTransition(
                       position: _arrowSlideAnimation,
-                      child: Container(
-                        padding: EdgeInsets.only(
-                          left: Distance_Unit * 2,
-                        ),
-                        height: Distance_Unit * 10,
-                        width: Distance_Unit * 10,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(
-                            Distance_Unit * 12,
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Color(0xFF6F69AC),
-                        ),
-                      ),
                     ),
                   ),
                   SizedBox(
-                    height: Distance_Unit * 12,
+                    height: Distance_Unit * 7,
                   ),
                   SlideTransition(
                     position: Tween<Offset>(
@@ -121,9 +111,9 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                     ),
                     child: Container(
                       child: Text(
-                        "Welcome to \nFee Notifier",
+                        "Fee Notifier",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Color.fromRGBO(255,198,137,40),
                           fontWeight: FontWeight.w600,
                           fontSize: 40,
                         ),
@@ -138,10 +128,10 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
               opacity: _animationController,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Color.fromRGBO(45, 45, 45, 100),
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(32),
-                    topRight: Radius.circular(32),
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
                   ),
                 ),
                 child: Padding(
@@ -149,7 +139,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                     left: Distance_Unit * 4,
                     right: Distance_Unit * 4,
                     bottom: Distance_Unit * 4,
-                    top: Distance_Unit * 15,
+                    top: Distance_Unit * 10,
                   ),
                   child: Column(
                     children: [
@@ -157,29 +147,31 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                         labelText: "Email",
                         keyboardType: TextInputType.emailAddress,
                         prefixIconName: Icons.mail,
-                        prefixIconColor: Color(0xFF6F69AC),
-                        borderColor: Color(0xFF6F69AC),
-                        focusBorderColor: Color(0xFFFD6F96),
-                        labelTextColor: Color(0xFF6F69AC),
+                        prefixIconColor: Color.fromRGBO(209,209,209,20),
+                        borderColor: Color.fromRGBO(255,198,137,40),
+                        focusBorderColor: Color.fromRGBO(255,198,137,40),
+                        labelTextColor: Color.fromRGBO(209,209,209,10),
+                        textColor: Colors.white,
+                        //TODO - change input text color
                         onChanged: (val) {
                           email = val;
                         },
                       ),
                       SizedBox(
-                        height: Distance_Unit * 4,
+                        height: Distance_Unit * 2,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: Distance_Unit * 20,
+                          top: Distance_Unit * 90,
                         ),
                         child: GenericButtons(
                           title: "Next",
-                          backgroundColor: Color(0xFFFD6F96),
-                          textColor: Colors.white,
-                          suffixIconColor: Colors.white,
+                          backgroundColor: Color.fromRGBO(255,198,137,40),
+                          textColor: Colors.black54,
+                          suffixIconColor: Colors.black54,
                           suffixIconData: Icons.arrow_forward_ios,
                           onTap: () async {
-                            if (email != null && email.isNotEmpty) {
+                            if (isEmailValid(email)) {
                               http.Response response = await sendOTP(email);
                               print(response.body);
                               if (response.body != null &&
@@ -193,6 +185,9 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                                     ),
                                   ),
                                 );
+                            }else{
+                              //TODO show message-  not a valid email
+                              print("Not a valid email");
                             }
                           },
                         ),

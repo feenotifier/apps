@@ -32,7 +32,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   ) async {
     return http.post(
       Uri.parse(
-          'http://c081-49-36-183-201.ngrok.io/fn/v1/check-email?email=$email'),
+          'http://ec61-2405-201-5803-9005-ad9f-83b9-5daa-19a2.ngrok.io/fn/v1/check-email?email=$email'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -64,9 +64,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         leading: Padding(
           padding: EdgeInsets.all(5),
           child: RoundBackButton(
-            backgroundColor: Color(0xFF6F69AC),
-            arrowIconColor: Colors.white,
-          ),
+              backgroundColor: Color(0xFF6F69AC),
+              arrowIconColor: Colors.white,
+              onPressed: () {
+                Navigator.pop(context);
+              }),
         ),
       ),
       body: SingleChildScrollView(
@@ -109,7 +111,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "ashishchaubey866@gmail.com",
+                            fetchEmail(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -117,17 +119,22 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           SizedBox(
                             width: Distance_Unit * 2,
                           ),
-                          Container(
-                            height: 20,
-                            width: 20,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Color(0xFFFD6F96),
-                            ),
-                            child: Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                              size: 12,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              height: 20,
+                              width: 20,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: Color(0xFFFD6F96),
+                              ),
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                                size: 12,
+                              ),
                             ),
                           ),
                         ],

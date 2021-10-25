@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class RoundBackButton extends StatefulWidget {
   final Color backgroundColor;
   final Color arrowIconColor;
+  final VoidCallback onPressed;
   const RoundBackButton({
     Key key,
     this.backgroundColor,
     this.arrowIconColor,
+    this.onPressed,
   }) : super(key: key);
 
   @override

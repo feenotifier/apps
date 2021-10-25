@@ -12,6 +12,7 @@ class GenericTextField extends StatelessWidget {
   final Color labelTextColor;
   final Function onChanged;
   final Function onSubmitted;
+  final Color textColor;
   const GenericTextField({
     Key key,
     this.keyboardType,
@@ -24,6 +25,7 @@ class GenericTextField extends StatelessWidget {
     this.labelTextColor,
     this.onChanged,
     this.onSubmitted,
+    this.textColor
   }) : super(key: key);
 
   @override
@@ -31,8 +33,12 @@ class GenericTextField extends StatelessWidget {
     return TextField(
       onChanged: onChanged,
       onSubmitted: onSubmitted,
+      style: TextStyle(
+        color: textColor,
+      ),
       keyboardType: keyboardType ?? TextInputType.name,
       decoration: InputDecoration(
+        fillColor: textColor,
         labelText: labelText,
         labelStyle: TextStyle(
           color: labelTextColor,
