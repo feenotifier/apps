@@ -66,6 +66,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           child: RoundBackButton(
             backgroundColor: Color(0xFF6F69AC),
             arrowIconColor: Colors.white,
+            onPressed:(){Navigator.pop(context);}
           ),
         ),
       ),
@@ -109,7 +110,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "ashishchaubey866@gmail.com",
+                            fetchEmail(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
