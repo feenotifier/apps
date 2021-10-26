@@ -55,21 +55,21 @@ class _SplashScreenState extends State<SplashScreen> {
         Map<String, dynamic> map = json.decode(response.body);
         if (map['data']['isLogin'] == true &&
             map['data']['response'] == "SUCCESS")
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (_) => HomePage(),
             ),
           );
         else
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (_) => LoginLandingScreen(),
             ),
           );
       } else
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (_) => LoginLandingScreen(),
