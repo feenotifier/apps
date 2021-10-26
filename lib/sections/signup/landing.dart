@@ -4,6 +4,7 @@ import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
 import 'package:apps/sections/homepage/home.dart';
+import 'package:apps/services/api.dart';
 import 'package:apps/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -28,28 +29,6 @@ class _SignupLandingScreenState extends State<SignupLandingScreen>
   String lastName;
   String phoneNumber;
   String password;
-
-  Future<http.Response> signupUser(
-    String firstName,
-    String lastName,
-    String phoneNumber,
-    String email,
-    String password,
-  ) async {
-    return http.post(
-      Uri.parse('http://c081-49-36-183-201.ngrok.io/fn/v1/signup'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        "firstName": firstName,
-        "lastName": lastName,
-        "email": email,
-        "phoneNumber": phoneNumber,
-        "password": password
-      }),
-    );
-  }
 
   @override
   void initState() {

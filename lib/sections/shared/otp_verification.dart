@@ -6,6 +6,7 @@ import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
 import 'package:apps/sections/login/enter_password.dart';
 import 'package:apps/sections/signup/landing.dart';
+import 'package:apps/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,24 +26,6 @@ class OtpVerificationScreen extends StatefulWidget {
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   String enteredOtp;
   String fetchedEmail;
-
-  //check email is present in db or not
-  Future<http.Response> isUserOnboarded(
-    String email,
-  ) async {
-    return http.post(
-      Uri.parse(
-          'http://ec61-2405-201-5803-9005-ad9f-83b9-5daa-19a2.ngrok.io/fn/v1/check-email?email=$email'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-        <String, String>{
-          "email": email,
-        },
-      ),
-    );
-  }
 
   @override
   void initState() {
@@ -185,7 +168,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         }
                       } else
                         print("Otp did not matched");
-                      // 209239
                     },
                   ),
                 ],
