@@ -27,7 +27,6 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
     return http.get(
       Uri.parse(
           'http://c081-49-36-183-201.ngrok.io/account/verification/sendOtp?email=$email'),
-
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -62,8 +61,8 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
   }
 
   bool isEmailValid(String em) {
-    String p = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = new RegExp(p);
+    final regExp = RegExp(
+        r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$');
     return regExp.hasMatch(em);
   }
 
@@ -75,10 +74,9 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromRGBO(18,18,18,60),
+      backgroundColor: Color.fromRGBO(18, 18, 18, 60),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +111,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                       child: Text(
                         "Fee Notifier",
                         style: TextStyle(
-                          color: Color.fromRGBO(255,198,137,40),
+                          color: Color.fromRGBO(255, 198, 137, 40),
                           fontWeight: FontWeight.w600,
                           fontSize: 40,
                         ),
@@ -138,7 +136,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                   padding: EdgeInsets.only(
                     left: Distance_Unit * 4,
                     right: Distance_Unit * 4,
-                    bottom: Distance_Unit * 4,
+                    bottom: Distance_Unit * 16,
                     top: Distance_Unit * 10,
                   ),
                   child: Column(
@@ -147,10 +145,10 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                         labelText: "Email",
                         keyboardType: TextInputType.emailAddress,
                         prefixIconName: Icons.mail,
-                        prefixIconColor: Color.fromRGBO(209,209,209,20),
-                        borderColor: Color.fromRGBO(255,198,137,40),
-                        focusBorderColor: Color.fromRGBO(255,198,137,40),
-                        labelTextColor: Color.fromRGBO(209,209,209,10),
+                        prefixIconColor: Color.fromRGBO(209, 209, 209, 20),
+                        borderColor: Color.fromRGBO(255, 198, 137, 40),
+                        focusBorderColor: Color.fromRGBO(255, 198, 137, 40),
+                        labelTextColor: Color.fromRGBO(209, 209, 209, 10),
                         textColor: Colors.white,
                         //TODO - change input text color
                         onChanged: (val) {
@@ -162,32 +160,27 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: Distance_Unit * 90,
+                          top: Distance_Unit * 80,
                         ),
                         child: GenericButtons(
                           title: "Next",
-                          backgroundColor: Color.fromRGBO(255,198,137,40),
+                          backgroundColor: Color.fromRGBO(255, 198, 137, 40),
                           textColor: Colors.black54,
                           suffixIconColor: Colors.black54,
                           suffixIconData: Icons.arrow_forward_ios,
                           onTap: () async {
                             if (isEmailValid(email)) {
-                              http.Response response = await sendOTP(email);
-                              print(response.body);
-                              if (response.body != null &&
-                                  response.body.isNotEmpty)
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => OtpVerificationScreen(
-                                      otp: response.body.toString(),
-                                      email: email,
-                                    ),
-                                  ),
-                                );
-                            }else{
+                              _onLoading();
+                            } else {
                               //TODO show message-  not a valid email
                               print("Not a valid email");
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          const Text('Email is Not Valid')),
+                                );
                             }
                           },
                         ),
@@ -201,5 +194,28 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
         ),
       ),
     );
+  }
+
+  void _onLoading() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Center(child: CircularProgressIndicator());
+      },
+    );
+    http.Response response = await sendOTP(email);
+    if (response.body != null && response.body.isNotEmpty) {
+      Navigator.pop(context); //pop dialog
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => OtpVerificationScreen(
+            otp: response.body.toString(),
+            email: email,
+          ),
+        ),
+      );
+    }
   }
 }
