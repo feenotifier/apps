@@ -2,6 +2,8 @@ import 'package:apps/sections/constant/constants.dart';
 import 'package:apps/sections/generic_class/buttons.dart';
 import 'package:apps/sections/generic_class/text_field.dart';
 import 'package:apps/sections/shared/otp_verification.dart';
+import 'package:apps/services/api.dart';
+import 'package:apps/utility/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,21 +20,6 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
   Animation<Offset> _arrowSlideAnimation;
   String email;
   String password;
-
-  // send OTP
-
-  Future<http.Response> sendOTP(
-    String email,
-  ) async {
-    return http.get(
-      Uri.parse(
-          'http://c081-49-36-183-201.ngrok.io/account/verification/sendOtp?email=$email'),
-
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
-  }
 
   @override
   void initState() {
@@ -61,12 +48,6 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
     );
   }
 
-  bool isEmailValid(String em) {
-    String p = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = new RegExp(p);
-    return regExp.hasMatch(em);
-  }
-
   @override
   void dispose() {
     _animationController.dispose();
@@ -75,10 +56,9 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromRGBO(18,18,18,60),
+      backgroundColor: Color.fromRGBO(18, 18, 18, 60),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +93,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                       child: Text(
                         "Fee Notifier",
                         style: TextStyle(
-                          color: Color.fromRGBO(255,198,137,40),
+                          color: Color.fromRGBO(255, 198, 137, 40),
                           fontWeight: FontWeight.w600,
                           fontSize: 40,
                         ),
@@ -147,12 +127,11 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                         labelText: "Email",
                         keyboardType: TextInputType.emailAddress,
                         prefixIconName: Icons.mail,
-                        prefixIconColor: Color.fromRGBO(209,209,209,20),
-                        borderColor: Color.fromRGBO(255,198,137,40),
-                        focusBorderColor: Color.fromRGBO(255,198,137,40),
-                        labelTextColor: Color.fromRGBO(209,209,209,10),
+                        prefixIconColor: Color.fromRGBO(209, 209, 209, 20),
+                        borderColor: Color.fromRGBO(255, 198, 137, 40),
+                        focusBorderColor: Color.fromRGBO(255, 198, 137, 40),
+                        labelTextColor: Color.fromRGBO(209, 209, 209, 10),
                         textColor: Colors.white,
-                        //TODO - change input text color
                         onChanged: (val) {
                           email = val;
                         },
@@ -166,14 +145,13 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                         ),
                         child: GenericButtons(
                           title: "Next",
-                          backgroundColor: Color.fromRGBO(255,198,137,40),
+                          backgroundColor: Color.fromRGBO(255, 198, 137, 40),
                           textColor: Colors.black54,
                           suffixIconColor: Colors.black54,
                           suffixIconData: Icons.arrow_forward_ios,
                           onTap: () async {
                             if (isEmailValid(email)) {
                               http.Response response = await sendOTP(email);
-                              print(response.body);
                               if (response.body != null &&
                                   response.body.isNotEmpty)
                                 Navigator.push(
@@ -185,8 +163,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                                     ),
                                   ),
                                 );
-                            }else{
-                              //TODO show message-  not a valid email
+                            } else {
                               print("Not a valid email");
                             }
                           },

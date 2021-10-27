@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:apps/sections/homepage/home.dart';
 import 'package:apps/sections/login/landing.dart';
+import 'package:apps/services/api.dart';
 import 'package:apps/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -21,30 +22,11 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  Future<http.Response> isEmailAndPassCorrect(
-    String email,
-    String password,
-  ) async {
-    return http.post(
-      Uri.parse('http://c081-49-36-183-201.ngrok.io/fn/v1/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        "email": email,
-        'password': password,
-      }),
-    );
-  }
-
   String email;
   String password;
   _initScreen() async {
     email = await getEmail();
     password = await getPassword();
-
-    print(email);
-    print(password);
 
     Timer(Duration(seconds: 5), () async {
       if (email != null &&
@@ -80,8 +62,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("Email $email");
-    print("password:$password");
     return Scaffold(
       backgroundColor: Color(0xFFFD6F96),
       body: SafeArea(
