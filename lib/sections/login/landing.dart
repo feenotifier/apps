@@ -101,7 +101,6 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                             color: Color.fromRGBO(255, 198, 137, 40),
                             fontWeight: FontWeight.w600,
                             fontSize: 40,
-                          ),
                         ),
                       ),
                     ),
@@ -173,6 +172,7 @@ class _LoginLandingScreenState extends State<LoginLandingScreen>
                               }
                             },
                           ),
+
                         ),
                       ],
                     ),
